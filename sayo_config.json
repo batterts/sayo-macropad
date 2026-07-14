@@ -90,6 +90,23 @@
         100,
         0
       ]
+    },
+    {
+      "match_app": [
+        "Microsoft Teams",
+        "Microsoft Teams (work or school)",
+        "Microsoft Teams classic",
+        "MSTeams",
+        "Teams"
+      ],
+      "label": "teams",
+      "slot": 6,
+      "mode": 5,
+      "color": [
+        98,
+        100,
+        167
+      ]
     }
   ],
   "default": {

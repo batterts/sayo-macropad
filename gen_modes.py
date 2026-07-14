@@ -13,6 +13,7 @@ K = {  # HID key codes
     'T':0x17,'B':0x05,'N':0x11,'P':0x13,'ENTER':0x28,'SEMI':0x33,'TAB':0x2B,
     '2':0x1F,'UP':0x52,'DOWN':0x51,'LBRK':0x2F,'RBRK':0x30,
     'F2':0x3B,'F7':0x40,'F8':0x41,'F9':0x42,
+    'M':0x10,'O':0x12,'H':0x0B,'E':0x08,   # for MS Teams shortcuts
 }
 MOD = {'CTRL':0x01,'SHIFT':0x02,'ALT':0x04,'CMD':0x08}
 MU  = {'PLAY':12,'NEXT':15,'PREV':14,'VUP':10,'VDOWN':11,'MUTE':8}
@@ -115,6 +116,14 @@ MODES = {
    3: combo(['CMD'],'F8'),     # toggle breakpoint
    4: combo(['CMD'],'F2'),     # stop
    5: combo(['SHIFT'],'F8'),   # step out
+ },
+ 5: {  # MS Teams (macOS shortcuts)
+   0: combo(['CMD','SHIFT'],'O'),   # toggle camera
+   1: combo(['CMD','SHIFT'],'K'),   # raise / lower hand
+   2: combo(['CMD','SHIFT'],'H'),   # leave call
+   3: combo(['CMD','SHIFT'],'M'),   # knob push = mute / unmute mic
+   4: media('VDOWN'),               # volume down
+   5: media('VUP'),                 # volume up
  },
 }
 
