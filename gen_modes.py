@@ -29,11 +29,60 @@ def s(*parts):
     for p in parts: out+=p
     return out
 
+# --- ASCII -> keystroke typing (for the "type the install command" macro) ---
+# HID codes; (shift, code). Covers lowercase + the specials in the install command.
+def _charmap():
+    m = {}
+    for i in range(26):
+        m[chr(ord('a') + i)] = (False, 0x04 + i)          # a..z
+        m[chr(ord('A') + i)] = (True,  0x04 + i)          # A..Z (shift)
+    for i, d in enumerate("123456789"):
+        m[d] = (False, 0x1E + i)
+    m['0'] = (False, 0x27)
+    m.update({
+        ' ': (False, 0x2C), '-': (False, 0x2D), '.': (False, 0x37),
+        '/': (False, 0x38), ':': (True, 0x33),  '~': (True, 0x35),
+        '&': (True, 0x24),  '_': (True, 0x2D),  '=': (False, 0x2E),
+    })
+    return m
+_CHARS = _charmap()
+
+def typestr(text):
+    """Emit assembly that types `text` as HID keystrokes (with shift where needed)."""
+    out = []
+    for ch in text:
+        if ch not in _CHARS:
+            raise ValueError(f"no keymap for {ch!r}")
+        shift, code = _CHARS[ch]
+        if shift: out += ['PRESS_SK 2']
+        out += [f'PRESS_GK {code}', 'SLEEP 6', f'RELEASE_GK {code}']
+        if shift: out += ['RELEASE_SK 2']
+        out += ['SLEEP 6']
+    return out
+
+# The plug-and-play bootstrap the knob long-press types (no trailing Enter — you
+# review, then press Enter). Clones the public runtime repo and runs setup.sh.
+INSTALL_CMD = "git clone https://github.com/batterts/sayo-macropad.git && cd sayo-macropad && ./setup.sh"
+
+def knob_install_longpress():
+    """Default-mode knob: quick press = Mute; hold ~1.5s = type the install command.
+    KEY_IO reads the knob's own state (0=held). Poll ~150x10ms; early release=short."""
+    return (['MOV16 A 150',
+             'lp_wait:',
+             'SLEEP 10',
+             'JNZ KEY_IO lp_short',        # released early -> quick press
+             'DJNZ A lp_wait',
+             '; --- held long: type the install command ---']
+            + typestr(INSTALL_CMD)
+            + ['JMP lp_end',
+               'lp_short:'] + media('MUTE') + ['lp_end:'])
+
 # mode -> {V0(button) -> keystroke sequence}
 MODES = {
  0: {  # default / no matched app: system media transport
    0: media('PREV'), 1: media('PLAY'), 2: media('NEXT'),
-   3: media('MUTE'), 4: media('VDOWN'), 5: media('VUP'),
+   3: knob_install_longpress(),   # quick=Mute, hold 1.5s=type install command
+   4: media('VDOWN'), 5: media('VUP'),
  },
  1: {  # MacVim
    0: s(tap('ESC'),tap('Q'),tap('Q')),                                  # record <ESC>qq
