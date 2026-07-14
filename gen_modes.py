@@ -14,6 +14,7 @@ K = {  # HID key codes
     '2':0x1F,'UP':0x52,'DOWN':0x51,'LBRK':0x2F,'RBRK':0x30,
     'F2':0x3B,'F7':0x40,'F8':0x41,'F9':0x42,
     'M':0x10,'O':0x12,'H':0x0B,'E':0x08,   # for MS Teams shortcuts
+    'D':0x07,                              # for iTerm split
 }
 MOD = {'CTRL':0x01,'SHIFT':0x02,'ALT':0x04,'CMD':0x08}
 MU  = {'PLAY':12,'NEXT':15,'PREV':14,'VUP':10,'VDOWN':11,'MUTE':8}
@@ -124,6 +125,14 @@ MODES = {
    3: combo(['CMD','SHIFT'],'M'),   # knob push = mute / unmute mic
    4: media('VDOWN'),               # volume down
    5: media('VUP'),                 # volume up
+ },
+ 6: {  # iTerm2 terminal
+   0: combo(['CMD'],'T'),               # new tab
+   1: combo(['CMD'],'D'),               # split pane (vertical)
+   2: combo(['CMD'],'W'),               # close tab / pane
+   3: combo(['CMD'],'K'),               # knob push = clear screen
+   4: combo(['CMD','SHIFT'],'LBRK'),    # prev tab
+   5: combo(['CMD','SHIFT'],'RBRK'),    # next tab
  },
 }
 
