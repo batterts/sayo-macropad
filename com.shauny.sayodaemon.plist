@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  LaunchAgent to auto-run the app-aware SayoDevice daemon at login.
+  Install:
+    cp com.shauny.sayodaemon.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.shauny.sayodaemon.plist
+  Stop:
+    launchctl unload ~/Library/LaunchAgents/com.shauny.sayodaemon.plist
+  Logs: /tmp/sayodaemon.out / /tmp/sayodaemon.err
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.shauny.sayodaemon</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/shaun.batterton/code/SayoDevice-Shauny-GPT-version/venv/bin/python3</string>
+        <string>/Users/shaun.batterton/code/SayoDevice-Shauny-GPT-version/sayo_daemon.py</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/shaun.batterton/code/SayoDevice-Shauny-GPT-version</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/tmp/sayodaemon.out</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/sayodaemon.err</string>
+</dict>
+</plist>

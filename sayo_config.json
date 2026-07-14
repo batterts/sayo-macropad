@@ -1,0 +1,105 @@
+{
+  "_comment": "App-aware macropad config. Match on frontmost macOS app name (and optional URL substring for browsers). 'slot' = the on-device image index (0-6, preview with: ./venv/bin/python sayo_show.py <n>). 'color' = [r,g,b] for the button LEDs. First matching rule wins; 'default' is the fallback.",
+  "poll_seconds": 0.5,
+  "button_script_enabled": true,
+  "_modes": "mode = the on-device button-script branch (0 media, 1 vim, 2 browser, 3 youtube, 4 intellij). When button_script_enabled=true the daemon signals the mode via zone-1 LED red channel (middle button goes dark); when false all buttons show the icon color. Turn on AFTER flashing modes.bin + restoring keybindings + calibration.",
+  "rules": [
+    {
+      "match_app": [
+        "MacVim",
+        "Vim",
+        "gvim"
+      ],
+      "label": "vim",
+      "slot": 0,
+      "mode": 1,
+      "color": [
+        0,
+        200,
+        40
+      ]
+    },
+    {
+      "match_app": [
+        "Safari"
+      ],
+      "label": "safari",
+      "slot": 1,
+      "mode": 2,
+      "color": [
+        0,
+        120,
+        255
+      ]
+    },
+    {
+      "match_app": [
+        "Google Chrome"
+      ],
+      "match_url": "youtube.com",
+      "label": "youtube",
+      "slot": 5,
+      "mode": 3,
+      "color": [
+        255,
+        0,
+        0
+      ]
+    },
+    {
+      "match_app": [
+        "Google Chrome"
+      ],
+      "label": "chrome",
+      "slot": 3,
+      "mode": 2,
+      "color": [
+        255,
+        180,
+        0
+      ]
+    },
+    {
+      "match_app": [
+        "iTerm2",
+        "iTerm",
+        "Terminal"
+      ],
+      "label": "iterm",
+      "slot": 2,
+      "mode": 0,
+      "color": [
+        180,
+        180,
+        180
+      ]
+    },
+    {
+      "match_app": [
+        "IntelliJ IDEA",
+        "idea",
+        "PyCharm",
+        "WebStorm",
+        "GoLand"
+      ],
+      "label": "intellij",
+      "slot": 4,
+      "mode": 4,
+      "color": [
+        255,
+        100,
+        0
+      ]
+    }
+  ],
+  "default": {
+    "label": "default",
+    "slot": 6,
+    "mode": 0,
+    "color": [
+      40,
+      40,
+      40
+    ]
+  }
+}

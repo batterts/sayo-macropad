@@ -1,0 +1,7 @@
+.DS_Store
+*.swp
+.*.swp
+*~
+__pycache__/
+*.pyc
+venv/

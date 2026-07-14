@@ -1,0 +1,14 @@
+# SayoDevice O3C v1 - Python Dependencies
+
+# HID communication
+hidapi>=0.14.0
+pyusb>=1.2.1
+
+# Image encoding for LCD icons (app-aware daemon)
+Pillow>=10.0.0
+
+# Data processing
+numpy>=1.24.0
+
+# Development tools
+ipython>=8.12.0
