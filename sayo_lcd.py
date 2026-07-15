@@ -140,12 +140,24 @@ def build_upload(blob, base):
     frames.append(_wrap(commit))
     return frames
 
-def upload_image_frames(dev, frames):
-    """Write pre-built upload frames on an already-open hid device handle."""
+def save_to_flash(dev):
+    """Commit staged report-0x22 changes to flash (the web app's Save button).
+    cmd 0x0d + magic 0x7296 — verified byte-identical to a captured Save. Without this,
+    report-0x22 writes (image uploads, screen layers) don't persist across a replug."""
+    f = _wrap(bytes([0x06, 0x00, 0x0D, 0x00, 0x96, 0x72]))
+    dev.write(bytes([0x22]) + f + bytes(1023 - len(f)))
+
+
+def upload_image_frames(dev, frames, save=True):
+    """Write pre-built upload frames on an already-open hid device handle, then commit
+    to flash (save=True) so the upload survives a replug."""
     import time
     for f in frames:
         dev.write(bytes([0x22]) + f + bytes(1023 - len(f)))
         time.sleep(0.005)
+    if save:
+        time.sleep(0.05)
+        save_to_flash(dev)
 
 def upload_image(img, base, max_colors=64):
     """Encode + upload an image at storage offset `base`. Opens its own handle."""
