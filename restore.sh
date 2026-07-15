@@ -22,7 +22,7 @@ pkill -9 -f sayo_daemon.py 2>/dev/null || true
 sleep 2
 
 echo "==> Restoring device"
-"$PY" restore_device.py
+"$PY" restore_device.py "$@"
 
 echo "==> Restarting daemon"
 launchctl load "$PLIST"

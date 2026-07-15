@@ -18,15 +18,24 @@ Still connected: **Calibrate** the analog keys (hands **off** the keys while it 
 Calibration is sensor-specific and can't be safely written from the host — this is the
 one irreducible manual step. It also stops the `x`/`z`/`c` phantom typing.
 
-## 3. Load everything else (one command)
+## 3. Load the buttons (one command)
 Disconnect the web app, then:
 ```bash
 cd ~/sayo/sayo-macropad 2>/dev/null || cd ~/code/SayoDevice-Shauny-GPT-version
 ./restore.sh
 ```
-`restore.sh` re-flashes the button script, re-asserts the 6 run-script bindings, and
-re-uploads the 7 app icons — then restarts the daemon. Switch apps to confirm the LCD
-icon + LED colors + contextual buttons all follow.
+`restore.sh` re-flashes the button script and re-asserts the 6 run-script bindings
+(both proven-safe), then restarts the daemon. LED colors + contextual buttons follow.
+
+## Icons: use the web app (reliable)
+While you're connected for calibration (step 2), also **drag your 7 icon PNGs**
+(`icons/*.png`) into **Images** and assign them to the Custom Images layer — slots in
+this order to match `sayo_config.json`: 0 MacVim · 1 Safari · 2 iTerm · 3 Chrome ·
+4 IntelliJ · 5 YouTube · 6 Default.
+
+> ⚠️ There's an experimental `./restore.sh --icons` that uploads them from Python, but
+> the host-side image upload can occasionally wedge the screen (and a flash-save would
+> make that persist), so it's opt-in only. The web-app upload is the dependable path.
 
 ---
 **Why calibration/screen need the web app but everything else doesn't:** calibration is

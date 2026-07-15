@@ -62,16 +62,24 @@ def upload_icons():
 
 
 def main():
-    print("1/3 flashing button script...")
+    # SAFE by default: script + bindings only (these never wedge the device).
+    # Icons are OPT-IN via --icons because the Python image upload can occasionally
+    # wedge the screen; the reliable way to load icons is dragging the PNGs into
+    # sayodevice.com. See RECOVERY.md.
+    do_icons = "--icons" in sys.argv
+    print("1/2 flashing button script...")
     flash_script(); time.sleep(0.4)
-    print("2/3 re-asserting button bindings...")
-    bind_keys(); time.sleep(0.4)
-    print("3/3 uploading app icons...")
-    try:
-        upload_icons()
-    except Exception as e:
-        print(f"   ICON UPLOAD FAILED ({e}) — buttons still work; drag PNGs in via "
-              f"sayodevice.com if the LCD stays blank")
+    print("2/2 re-asserting button bindings...")
+    bind_keys()
+    if do_icons:
+        print("3/3 uploading app icons (experimental)...")
+        try:
+            upload_icons()
+        except Exception as e:
+            print(f"   ICON UPLOAD FAILED ({e}) — drag PNGs in via sayodevice.com")
+    else:
+        print("   (icons: load via sayodevice.com, or re-run with --icons to try "
+              "the experimental auto-upload)")
     print("restore complete.")
 
 

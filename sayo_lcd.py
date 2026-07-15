@@ -148,9 +148,13 @@ def save_to_flash(dev):
     dev.write(bytes([0x22]) + f + bytes(1023 - len(f)))
 
 
-def upload_image_frames(dev, frames, save=True):
-    """Write pre-built upload frames on an already-open hid device handle, then commit
-    to flash (save=True) so the upload survives a replug."""
+def upload_image_frames(dev, frames, save=False):
+    """Write pre-built upload frames on an already-open hid device handle.
+
+    save defaults to FALSE on purpose: save_to_flash() COMMITS the report-0x22 state to
+    flash, which means a *bad* upload persists and can only be cleared by a factory reset
+    (knob-hold). Leaving save off keeps the replug escape hatch. Only pass save=True once
+    an upload is verified good on-screen."""
     import time
     for f in frames:
         dev.write(bytes([0x22]) + f + bytes(1023 - len(f)))
