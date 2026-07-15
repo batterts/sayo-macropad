@@ -2,8 +2,9 @@
 # Full device restore after a factory reset: recompile + flash the button script,
 # re-assert the button bindings, and re-upload the 7 app icons — in one command.
 #
-# Prereq: run web-app Calibrate ONCE first (sayodevice.com -> connect -> Calibrate),
-# since key calibration is sensor-specific and can't be safely written from the host.
+# Prereq (after a factory reset): via sayodevice.com, (1) Backup & Restore -> Restore
+# sayobk-blank.sayobak (clears the factory screen layers), then (2) Calibrate the keys.
+# See RECOVERY.md. Calibration + screen layout need the web app; the rest is below.
 #
 #   ./restore.sh
 set -euo pipefail
